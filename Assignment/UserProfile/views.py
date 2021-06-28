@@ -38,7 +38,6 @@ def UserProfileView(request):
     user = user_profile()
     educationDetails = EducationalDetails()
     if request.method == "POST":
-        print(request.POST)
         educationDetails.Degree = request.POST["Degree"]
         educationDetails.YearOfPassing = request.POST["YearOfPassing"]
         educationDetails.CertificateImage = BOOL_CHOICES.get(request.POST["CertificateImage"])
