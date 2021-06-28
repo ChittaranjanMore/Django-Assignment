@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <title>User Profile</title>        
+        <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
+        <style>
+            table {
+              font-family: arial, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+              background-color: #dddddd;
+            }
+        </style>
+        
+    </head>
+<body>
+    <form action="UserProfileView" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        <table>
+            <tr>
+                <td>
+                    <label>Full Name:</label>
+                </td>        
+                <td>
+                    <input type="text" name="FullName">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Profile Image:</label>
+                </td>
+                <td>
+                    <input type="file" name="ProfileImage" id="fileToUpload">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>EmailId:</label>
+                </td>
+                <td>
+                    <input type="email" name="EmailId">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Short Description:</label>
+                </td>
+                <td>
+                    <textarea name="ShortDescription"></textarea>            
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Long Description:</label>
+                </td>
+                <td>
+                    <textarea name="LongDescription" id="LongDescription"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Degree:</label>
+                </td>
+                <td>
+                    <input type="text" name="Degree">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Year:</label>
+                </td>
+                <td>
+                    <select name="YearOfPassing">
+                        {% for y in year %}
+                            <option value="{{ y }}">{{ y}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Certificate Image:</label>
+                </td>
+                <td>
+                    {% for radio in certificate %}
+                    <div>
+                        <input type="radio" value="{{radio}}" name="CertificateImage">{{radio}}
+                    </div>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+        <input type="Submit"> 
+    </form>
+    <div>
+        {% for message in messages%}
+        <h3>{{message}}</h3>
+        {% endfor %}
+    </div>
+    {% if data %}
+    <table style="border-color: black;">
+        <thead>
+            <th>FullName</th>
+            <th>ProfileImage</th>
+            <th>EmailId</th>
+            <th>ShortDescription</th>
+            <th>LongDescription</th>
+            <th>EducationDetails</th>
+        </thead>
+        {% for i in data%}
+        <tr>
+            <td>{{i.FullName}}</td>
+            <td>{{i.ProfileImage}}</td>
+            <td>{{i.EmailId}}</td>
+            <td>{{i.ShortDescription}}</td>
+            <td>{{i.LongDescription}}</td>
+            <td>Degree:{{i.EducationDetails.Degree}} YearOfPassing:{{i.EducationDetails.YearOfPassing}} 
+                CertificateImage:{{i.EducationDetails.CertificateImage}}</td>
+        </tr>
+        {% endfor%}
+    </table>
+    {% endif %}
+</body>
+</html>
+
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#LongDescription' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        
+</script>
