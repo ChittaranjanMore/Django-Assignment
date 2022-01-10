@@ -52,6 +52,7 @@ def UserProfileView(request):
     
     ## getting the Received json data and shown on Page ###     
     data = getAPIJson()
+    print("API JSON:",data)
     return render(request,'userprofile.html',{'year':year,'certificate':certificateImage,'data':data})
     
 ##################################################################################################################################
